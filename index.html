@@ -592,6 +592,60 @@ function randomPick(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
+// 从 STYLES 数组中按 id 查找（不用 Array.find，确保老浏览器兼容）
+function findStyle(id) {
+  for (var i = 0; i < STYLES.length; i++) {
+    if (STYLES[i].id === id) return STYLES[i];
+  }
+  return null;
+}
+
+// 从数组中按 id 查找 hook
+function findHookById(arr, id) {
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i].id === id) return arr[i];
+  }
+  return null;
+}
+
+// 从数组中按 id 查找索引
+function findIndexById(arr, id) {
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i].id === id) return i;
+  }
+  return -1;
+}
+
+// 检查收藏中是否已有某 hook
+function isFaved(hookId) {
+  for (var i = 0; i < favorites.length; i++) {
+    if (favorites[i].id === hookId) return true;
+  }
+  return false;
+}
+
+// 按 id 查找历史记录
+function findHistoryById(id) {
+  for (var i = 0; i < genHistory.length; i++) {
+    if (genHistory[i].id === id) return genHistory[i];
+  }
+  return null;
+}
+
+// 浅拷贝 hook 对象
+function cloneHook(h) {
+  return {
+    id: h.id,
+    hook: h.hook,
+    style: h.style,
+    styleIcon: h.styleIcon,
+    styleColor: h.styleColor,
+    styleBg: h.styleBg,
+    score: h.score,
+    reason: h.reason,
+  };
+}
+
 // ===== 核心：生成 Hook 列表 =====
 function generateHooks(topic, platform, contentType) {
   var tone = PLATFORM_TONE[platform];
@@ -610,7 +664,7 @@ function generateHooks(topic, platform, contentType) {
       styleId = i === 8 ? styleOrder[0] : styleOrder[1];
     }
 
-    var style = STYLES.find(function(s) { return s.id === styleId; });
+    var style = findStyle(styleId);
 
     // 后 2 个排除已用过的模板，确保不重复
     var template;
@@ -692,7 +746,7 @@ var currentType = 'video';
 var currentTab = 'results';
 var currentHooks = [];
 var favorites = JSON.parse(localStorage.getItem('hooklab_favorites') || '[]');
-var history = JSON.parse(localStorage.getItem('hooklab_history') || '[]');
+var genHistory = JSON.parse(localStorage.getItem('hooklab_history') || '[]');
 
 // 平台名称映射
 var PLATFORM_NAMES = { xiaohongshu: '小红书', douyin: '抖音', bilibili: 'B站' };
@@ -740,8 +794,12 @@ function escapeHtml(str) {
 }
 
 // 事件委托：处理卡片上的复制和收藏按钮点击
+// 用最基础的 DOM 遍历，兼容所有浏览器
 document.addEventListener('click', function(e) {
-  var btn = e.target.closest('[data-action]');
+  var btn = e.target;
+  while (btn && !btn.hasAttribute('data-action')) {
+    btn = btn.parentElement;
+  }
   if (!btn) return;
 
   if (btn.dataset.action === 'copy') {
@@ -792,7 +850,7 @@ function renderSkeletons() {
 function renderHooks(hooks) {
   var html = '';
   hooks.forEach(function(h, i) {
-    var isFaved = favorites.some(function(f) { return f.id === h.id; });
+    var faved = isFaved(h.id);
     html += ''
       + '<div class="hook-card" style="border-left: 4px solid ' + h.styleColor + '; animation-delay: ' + (i * 0.05) + 's;">'
       + '  <div class="card-header">'
@@ -800,7 +858,7 @@ function renderHooks(hooks) {
       + '    <div class="card-actions">'
       + '      <span class="score" style="color: ' + (h.score >= 90 ? '#22c55e' : h.score >= 85 ? '#3b82f6' : '#888') + ';">' + h.score + '%</span>'
       + '      <button data-action="copy" data-hook-text="' + escapeHtml(h.hook) + '" title="复制">📋</button>'
-      + '      <button data-action="fav" data-hook-id="' + h.id + '" title="' + (isFaved ? '取消收藏' : '收藏') + '">' + (isFaved ? '❤️' : '🤍') + '</button>'
+      + '      <button data-action="fav" data-hook-id="' + h.id + '" title="' + (faved ? '取消收藏' : '收藏') + '">' + (faved ? '❤️' : '🤍') + '</button>'
       + '    </div>'
       + '  </div>'
       + '  <div class="hook-text">"' + escapeHtml(h.hook) + '"</div>'
@@ -834,11 +892,11 @@ function copyHook(hookText, btn) {
 // ===== 收藏 / 取消收藏 =====
 function toggleFav(hookId, btn) {
   // 先在当前页面的 hooks 中查找
-  var hook = currentHooks.find(function(h) { return h.id === hookId; });
+  var hook = findHookById(currentHooks, hookId);
 
   // 如果当前页面没有（收藏页删除场景），从 favorites 中查找
   if (!hook) {
-    var idx = favorites.findIndex(function(h) { return h.id === hookId; });
+    var idx = findIndexById(favorites, hookId);
     if (idx > -1) {
       favorites.splice(idx, 1);
       saveFavorites();
@@ -848,7 +906,7 @@ function toggleFav(hookId, btn) {
     return;
   }
 
-  var index = favorites.findIndex(function(h) { return h.id === hookId; });
+  var index = findIndexById(favorites, hookId);
   if (index > -1) {
     // 已收藏 → 取消
     favorites.splice(index, 1);
@@ -919,16 +977,16 @@ function saveHistory(topic, platform, contentType, hooks) {
     topic: topic,
     platform: platform,
     contentType: contentType,
-    hooks: hooks.map(function(h) { return Object.assign({}, h); }),
+    hooks: hooks.map(function(h) { return cloneHook(h); }),
     createdAt: new Date().toLocaleString('zh-CN'),
   };
-  history.unshift(record);
-  if (history.length > 20) history = history.slice(0, 20);
-  localStorage.setItem('hooklab_history', JSON.stringify(history));
+  genHistory.unshift(record);
+  if (genHistory.length > 20) genHistory = genHistory.slice(0, 20);
+  localStorage.setItem('hooklab_history', JSON.stringify(genHistory));
 }
 
 function renderHistory() {
-  if (history.length === 0) {
+  if (genHistory.length === 0) {
     historyPanel.innerHTML = ''
       + '<div class="empty-state">'
       + '  <div class="empty-icon">📜</div>'
@@ -938,7 +996,7 @@ function renderHistory() {
   }
 
   var html = '';
-  history.forEach(function(record) {
+  genHistory.forEach(function(record) {
     html += ''
       + '<div class="history-item" onclick="loadHistory(' + record.id + ')">'
       + '  <div style="font-weight:600;color:#1a1a1a;">' + escapeHtml(record.topic) + '</div>'
@@ -951,7 +1009,7 @@ function renderHistory() {
 }
 
 function loadHistory(recordId) {
-  var record = history.find(function(r) { return r.id === recordId; });
+  var record = findHistoryById(recordId);
   if (!record) return;
 
   // 恢复选择状态
@@ -1010,13 +1068,30 @@ btnGenerate.addEventListener('click', function() {
   // 模拟 AI 思考（1.2~1.8 秒随机延迟）
   var delay = 800 + Math.random() * 500;
   setTimeout(function() {
+    var hooks;
     try {
-      var hooks = generateHooks(topic, currentPlatform, currentType);
+      hooks = generateHooks(topic, currentPlatform, currentType);
+    } catch (err) {
+      resultsPanel.innerHTML = '<div class="empty-state"><div class="empty-icon">😵</div><p>【生成步骤】' + err.message + '</p></div>';
+      btnGenerate.disabled = false;
+      btnGenerate.textContent = '✨ 生成10个爆款Hook';
+      return;
+    }
+    try {
       renderHooks(hooks);
+    } catch (err) {
+      resultsPanel.innerHTML = '<div class="empty-state"><div class="empty-icon">😵</div><p>【渲染步骤】' + err.message + '</p></div>';
+      btnGenerate.disabled = false;
+      btnGenerate.textContent = '✨ 生成10个爆款Hook';
+      return;
+    }
+    try {
       saveHistory(topic, currentPlatform, currentType, hooks);
     } catch (err) {
-      console.error('生成失败：', err);
-      resultsPanel.innerHTML = '<div class="empty-state"><div class="empty-icon">😵</div><p>生成出错了，请刷新页面重试</p></div>';
+      resultsPanel.innerHTML = '<div class="empty-state"><div class="empty-icon">😵</div><p>【保存步骤】' + err.message + '</p></div>';
+      btnGenerate.disabled = false;
+      btnGenerate.textContent = '✨ 生成10个爆款Hook';
+      return;
     }
     btnGenerate.disabled = false;
     btnGenerate.textContent = '✨ 生成10个爆款Hook';
