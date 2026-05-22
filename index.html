@@ -597,10 +597,30 @@ function generateHooks(topic, platform, contentType) {
   var tone = PLATFORM_TONE[platform];
   var styleOrder = TYPE_STYLE_MAP[contentType];
   var hooks = [];
+  // 风格加分表，10 个位置
+  var styleBonusList = [0, 2, 4, 6, 8, 10, 12, 13, 14, 15];
 
-  styleOrder.forEach(function(styleId, index) {
+  for (var i = 0; i < 10; i++) {
+    // 前 8 个用排列好的风格，后 2 个复用前两个热门风格但换不同模板
+    var styleId;
+    if (i < 8) {
+      styleId = styleOrder[i];
+    } else {
+      // 复用争议型和数据型，二次生成不同句式
+      styleId = i === 8 ? styleOrder[0] : styleOrder[1];
+    }
+
     var style = STYLES.find(function(s) { return s.id === styleId; });
-    var template = randomPick(style.templates);
+
+    // 后 2 个排除已用过的模板，确保不重复
+    var template;
+    if (i < 8) {
+      template = randomPick(style.templates);
+    } else {
+      // 从该风格模板中随机选（可能和前面重复，但文案变量不同）
+      var idx = (i - 7) % style.templates.length;
+      template = style.templates[idx];
+    }
 
     // 准备模板变量
     var vars = {
@@ -629,8 +649,8 @@ function generateHooks(topic, platform, contentType) {
 
     // 点击率：靠前的风格基础分更高（模拟不同风格的吸引力差异）
     var baseScore = 80;
-    var styleBonus = [0, 2, 4, 6, 8, 10, 12, 14][index];
-    var noise = Math.floor(Math.random() * 6) - 2;
+    var styleBonus = styleBonusList[i];
+    var noise = Math.floor(Math.random() * 4) - 1;
     var score = Math.min(98, Math.max(78, baseScore + styleBonus + noise));
 
     // 推荐理由
@@ -640,7 +660,7 @@ function generateHooks(topic, platform, contentType) {
     });
 
     hooks.push({
-      id: Date.now() + '_' + index,
+      id: Date.now() + '_' + i,
       hook: hookText,
       style: style.name,
       styleIcon: style.icon,
@@ -649,7 +669,7 @@ function generateHooks(topic, platform, contentType) {
       score: score,
       reason: reason,
     });
-  });
+  }
 
   return hooks;
 }
@@ -762,7 +782,7 @@ function quickFill(topic) {
 // ===== 骨架屏 =====
 function renderSkeletons() {
   var html = '';
-  for (var i = 0; i < 10; i++) {
+  for (var i = 0; i < 8; i++) {
     html += '<div class="skeleton"></div>';
   }
   resultsPanel.innerHTML = html;
@@ -988,12 +1008,16 @@ btnGenerate.addEventListener('click', function() {
   resultsPanel.scrollIntoView({ behavior: 'smooth' });
 
   // 模拟 AI 思考（1.2~1.8 秒随机延迟）
-  var delay = 1200 + Math.random() * 600;
+  var delay = 800 + Math.random() * 500;
   setTimeout(function() {
-    var hooks = generateHooks(topic, currentPlatform, currentType);
-    renderHooks(hooks);
-    saveHistory(topic, currentPlatform, currentType, hooks);
-
+    try {
+      var hooks = generateHooks(topic, currentPlatform, currentType);
+      renderHooks(hooks);
+      saveHistory(topic, currentPlatform, currentType, hooks);
+    } catch (err) {
+      console.error('生成失败：', err);
+      resultsPanel.innerHTML = '<div class="empty-state"><div class="empty-icon">😵</div><p>生成出错了，请刷新页面重试</p></div>';
+    }
     btnGenerate.disabled = false;
     btnGenerate.textContent = '✨ 生成10个爆款Hook';
   }, delay);
