@@ -51,6 +51,57 @@
       margin: 0 auto;
       padding: 0 20px;
     }
+
+    /* ===== 头部首屏 ===== */
+    .hero {
+      background: var(--cream);
+      text-align: center;
+      padding: 50px 20px 40px;
+    }
+
+    .avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--white);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin-bottom: 16px;
+    }
+
+    .hero-name {
+      font-size: 36px;
+      font-weight: bold;
+      color: var(--dark);
+      letter-spacing: 2px;
+    }
+
+    .hero-realname {
+      font-size: 16px;
+      color: var(--gray);
+      margin-bottom: 12px;
+    }
+
+    .hero-tagline {
+      font-size: 14px;
+      color: var(--gray);
+      margin-bottom: 18px;
+    }
+
+    .hero-contact {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+      font-size: 12px;
+    }
+
+    .hero-contact span {
+      background: rgba(225, 112, 85, 0.1);
+      color: var(--orange);
+      padding: 4px 12px;
+      border-radius: 16px;
+    }
   </style>
 </head>
 <body>
@@ -58,7 +109,23 @@
   <!-- 顶部彩虹条 -->
   <div class="top-stripe"></div>
 
-  <!-- 所有板块内容将在此处添加 -->
+  <!-- ===== 头部首屏 ===== -->
+  <header class="hero">
+    <div class="container">
+      <!-- 证件照：圆形裁切 -->
+      <img class="avatar" src="蓝底.jpg" alt="盛欣格证件照">
+      <!-- 展示名 -->
+      <h1 class="hero-name">Sheng</h1>
+      <p class="hero-realname">盛欣格</p>
+      <!-- 身份标签 -->
+      <p class="hero-tagline">全媒体专业 · AI创作者 · 北京交通大学</p>
+      <!-- 联系方式 -->
+      <div class="hero-contact">
+        <span>📧 2643105249@qq.com</span>
+        <span>📱 18299125958</span>
+      </div>
+    </div>
+  </header>
 
   <!-- 底部彩虹条 -->
   <div class="bottom-stripe"></div>
