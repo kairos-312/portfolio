@@ -134,33 +134,89 @@
       background: rgba(225, 112, 85, 0.08);
     }
 
-    /* ===== 项目经历 ===== */
+    /* ===== 社会经历 ===== */
     .experience {
       background: var(--cream);
       padding: 30px 20px;
     }
 
-    .exp-item {
-      border-left: 3px solid;
-      padding-left: 14px;
-      margin-bottom: 16px;
+    .exp-card {
+      background: var(--white);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     }
 
-    .exp-item:last-child {
+    .exp-card:last-child {
       margin-bottom: 0;
     }
 
-    .exp-title {
-      font-size: 14px;
-      font-weight: bold;
-      color: var(--dark);
-      margin-bottom: 4px;
+    /* 经历配图 */
+    .exp-images {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
     }
 
-    .exp-detail {
+    .exp-images--single {
+      grid-template-columns: 1fr;
+    }
+
+    .exp-images img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* 经历文字区 */
+    .exp-text {
+      padding: 16px;
+    }
+
+    .exp-title {
+      font-size: 15px;
+      font-weight: bold;
+      color: var(--dark);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    /* 标签小字 */
+    .exp-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: normal;
+      color: var(--green);
+      background: rgba(0, 184, 148, 0.1);
+      padding: 2px 8px;
+      border-radius: 10px;
+      margin-left: 4px;
+      vertical-align: middle;
+    }
+
+    /* 经历列表 */
+    .exp-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .exp-list li {
       font-size: 12px;
       color: var(--gray);
-      line-height: 1.5;
+      padding: 5px 0;
+      padding-left: 14px;
+      position: relative;
+      line-height: 1.6;
+    }
+
+    .exp-list li::before {
+      content: "·";
+      position: absolute;
+      left: 2px;
+      color: var(--green);
+      font-weight: bold;
     }
 
     /* ===== 作品展示 ===== */
@@ -361,47 +417,63 @@
     </div>
   </section>
 
-  <!-- ===== 项目经历 ===== -->
+  <!-- ===== 社会经历 ===== -->
   <section class="experience">
     <div class="container">
-      <h2 class="section-title" style="color: var(--green);">◆ 项目经历</h2>
+      <h2 class="section-title" style="color: var(--green);">◆ 社会经历</h2>
 
-      <!-- 经历条目 1 -->
-      <div class="exp-item" style="border-left-color: rgba(0, 184, 148, 0.3);">
-        <h3 class="exp-title">一日店长活动策划</h3>
-        <p class="exp-detail">2023 暑期社会实践 · 独立策划 + 海报设计 + 文案撰写</p>
+      <!-- 经历 1：AI家居展览海报 -->
+      <div class="exp-card">
+        <div class="exp-images">
+          <img src="ai家居展览海报.png" alt="AI家居展览海报" loading="lazy">
+          <img src="ai家居海报.png" alt="AI家居海报" loading="lazy">
+        </div>
+        <div class="exp-text">
+          <h3 class="exp-title">AI 生成家居展览海报 <span class="exp-badge">个人自主创作</span></h3>
+          <ul class="exp-list">
+            <li>独立使用 AI 生图工具（即梦 / Lovart）完成家居展览主题海报创作，风格定位新中式简约美学</li>
+            <li>掌握提示词工程（Prompt Engineering），能精准控制画面色调、构图与风格一致性</li>
+            <li>代表作品：《时空与颠覆》《恰到好处的松弛》等家居氛围视觉稿</li>
+          </ul>
+        </div>
       </div>
 
-      <!-- 经历条目 2 -->
-      <div class="exp-item" style="border-left-color: rgba(9, 132, 227, 0.3);">
-        <h3 class="exp-title">酒店开业宣传设计</h3>
-        <p class="exp-detail">商业兼职项目 · 主视觉海报 + 房型介绍图 + 价格展示图</p>
+      <!-- 经历 2：酒店开业宣传 -->
+      <div class="exp-card">
+        <div class="exp-images exp-images--single">
+          <img src="酒店海报.png" alt="酒店开业宣传海报" loading="lazy">
+        </div>
+        <div class="exp-text">
+          <h3 class="exp-title">酒店开业宣传系列海报 <span class="exp-badge">商业兼职项目</span></h3>
+          <ul class="exp-list">
+            <li>独立承接酒店开业宣传任务，完成主视觉海报、房型介绍图、价格展示图等系列物料</li>
+            <li>融合酒店品牌调性，设计暖棕高端配色方案，提升品牌识别度与宾客第一印象</li>
+          </ul>
+        </div>
       </div>
 
-      <!-- 经历条目 3 -->
-      <div class="exp-item" style="border-left-color: rgba(108, 92, 231, 0.3);">
-        <h3 class="exp-title">校学生会组织部</h3>
-        <p class="exp-detail">北京交通大学 · 海报设计 + PPT 制作 + 反诈短剧宣传</p>
+      <!-- 经历 3：一日店长 -->
+      <div class="exp-card">
+        <div class="exp-images exp-images--single">
+          <img src="一日店长.png" alt="一日店长活动海报" loading="lazy">
+        </div>
+        <div class="exp-text">
+          <h3 class="exp-title">北京一日店长活动策划 & 海报设计 <span class="exp-badge">2023 暑期社会实践</span></h3>
+          <ul class="exp-list">
+            <li>与多位店长联合策划大型粉丝交流活动，负责现场布置统筹与任务分工</li>
+            <li>独立设计活动宣传海报，完成活动概要文案撰写，吸引线下参与者到场</li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ===== 作品展示 ===== -->
+  <!-- ===== 课堂作业 ===== -->
   <section class="works">
     <div class="container">
-      <h2 class="section-title" style="color: var(--yellow);">◆ 作品展示</h2>
+      <h2 class="section-title" style="color: var(--yellow);">◆ 课堂作业</h2>
 
       <div class="work-grid">
-        <!-- AI家居展览海报 -->
-        <div class="work-item">
-          <img src="ai家居展览海报.png" alt="AI家居展览海报" loading="lazy">
-          <span class="work-label">AI 家居展览</span>
-        </div>
-        <!-- AI家居海报 -->
-        <div class="work-item">
-          <img src="ai家居海报.png" alt="AI家居海报" loading="lazy">
-          <span class="work-label">AI 家居海报</span>
-        </div>
         <!-- 耳机广告 -->
         <div class="work-item">
           <img src="耳机广告-2.png" alt="耳机产品广告" loading="lazy">
@@ -411,11 +483,6 @@
         <div class="work-item">
           <img src="咖啡.png" alt="咖啡饮品海报" loading="lazy">
           <span class="work-label">咖啡海报</span>
-        </div>
-        <!-- 酒店海报 -->
-        <div class="work-item">
-          <img src="酒店海报.png" alt="酒店开业海报" loading="lazy">
-          <span class="work-label">酒店海报</span>
         </div>
         <!-- 反诈短剧海报 -->
         <div class="work-item">
