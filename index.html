@@ -102,6 +102,37 @@
       padding: 4px 12px;
       border-radius: 16px;
     }
+
+    /* ===== 技能标签 ===== */
+    .skills {
+      background: var(--white);
+      padding: 30px 20px;
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 14px;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .skill-tags span {
+      background: #f0f0f0;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      color: var(--dark);
+    }
+
+    .skill-tags .highlight-tag {
+      font-weight: 600;
+      background: rgba(225, 112, 85, 0.08);
+    }
   </style>
 </head>
 <body>
@@ -126,6 +157,23 @@
       </div>
     </div>
   </header>
+
+  <!-- ===== 技能标签 ===== -->
+  <section class="skills">
+    <div class="container">
+      <h2 class="section-title" style="color: var(--orange);">◆ 技能工具</h2>
+      <div class="skill-tags">
+        <span>即梦 / Lovart</span>
+        <span>Photoshop</span>
+        <span>ChatGPT / Claude</span>
+        <span class="highlight-tag" style="color: var(--orange);">Agent 智能体搭建</span>
+        <span class="highlight-tag" style="color: var(--orange);">提示词工程</span>
+        <span class="highlight-tag" style="color: var(--green);">AI 图文创作</span>
+        <span class="highlight-tag" style="color: var(--blue);">文案撰写</span>
+        <span class="highlight-tag" style="color: var(--purple);">新媒体运营</span>
+      </div>
+    </div>
+  </section>
 
   <!-- 底部彩虹条 -->
   <div class="bottom-stripe"></div>
