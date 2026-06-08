@@ -162,6 +162,49 @@
       color: var(--gray);
       line-height: 1.5;
     }
+
+    /* ===== 作品展示 ===== */
+    .works {
+      background: var(--white);
+      padding: 30px 20px;
+    }
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .work-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .work-item:hover {
+      transform: scale(1.03);
+    }
+
+    .work-item img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .work-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0,0,0,0.55);
+      color: #fff;
+      font-size: 10px;
+      text-align: center;
+      padding: 4px 0;
+    }
   </style>
 </head>
 <body>
@@ -225,6 +268,46 @@
       <div class="exp-item" style="border-left-color: rgba(108, 92, 231, 0.3);">
         <h3 class="exp-title">校学生会组织部</h3>
         <p class="exp-detail">北京交通大学 · 海报设计 + PPT 制作 + 反诈短剧宣传</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 作品展示 ===== -->
+  <section class="works">
+    <div class="container">
+      <h2 class="section-title" style="color: var(--yellow);">◆ 作品展示</h2>
+
+      <div class="work-grid">
+        <!-- AI家居展览海报 -->
+        <div class="work-item">
+          <img src="ai家居展览海报.png" alt="AI家居展览海报" loading="lazy">
+          <span class="work-label">AI 家居展览</span>
+        </div>
+        <!-- AI家居海报 -->
+        <div class="work-item">
+          <img src="ai家居海报.png" alt="AI家居海报" loading="lazy">
+          <span class="work-label">AI 家居海报</span>
+        </div>
+        <!-- 耳机广告 -->
+        <div class="work-item">
+          <img src="耳机广告-2.png" alt="耳机产品广告" loading="lazy">
+          <span class="work-label">耳机广告</span>
+        </div>
+        <!-- 咖啡海报 -->
+        <div class="work-item">
+          <img src="咖啡.png" alt="咖啡饮品海报" loading="lazy">
+          <span class="work-label">咖啡海报</span>
+        </div>
+        <!-- 酒店海报 -->
+        <div class="work-item">
+          <img src="酒店海报.png" alt="酒店开业海报" loading="lazy">
+          <span class="work-label">酒店海报</span>
+        </div>
+        <!-- 反诈短剧海报 -->
+        <div class="work-item">
+          <img src="反诈短剧宣传海报.png" alt="反诈短剧宣传海报" loading="lazy">
+          <span class="work-label">反诈宣传</span>
+        </div>
       </div>
     </div>
   </section>
