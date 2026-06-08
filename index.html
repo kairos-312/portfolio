@@ -253,6 +253,72 @@
       font-size: 11px;
       color: var(--gray);
     }
+
+    /* ============================
+       响应式适配
+       ============================ */
+
+    /* 平板端：内容居中，稍宽 */
+    @media (min-width: 768px) {
+      .container {
+        padding: 0 40px;
+      }
+
+      .hero {
+        padding: 70px 20px 50px;
+      }
+
+      .avatar {
+        width: 120px;
+        height: 120px;
+      }
+
+      .hero-name {
+        font-size: 44px;
+      }
+
+      .work-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+
+      .work-item img {
+        height: 180px;
+      }
+    }
+
+    /* 桌面端：更大间距 */
+    @media (min-width: 1024px) {
+      .container {
+        padding: 0 60px;
+      }
+
+      .hero {
+        padding: 80px 20px 60px;
+      }
+
+      .hero-name {
+        font-size: 52px;
+      }
+
+      .skill-tags {
+        gap: 10px;
+      }
+
+      .skill-tags span {
+        font-size: 14px;
+        padding: 8px 18px;
+      }
+
+      .work-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+      }
+
+      .work-item img {
+        height: 200px;
+      }
+    }
   </style>
 </head>
 <body>
