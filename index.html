@@ -18,6 +18,8 @@
       --green: #00b894;       /* 绿色点缀 */
       --blue: #0984e3;        /* 蓝色点缀 */
       --purple: #6c5ce7;      /* 紫色点缀 */
+      --hero-bg: #1a1a2e;     /* 首屏深色背景 */
+      --hero-accent: #ff6b35; /* 首屏亮橘点缀 */
     }
 
     * {
@@ -33,12 +35,6 @@
       line-height: 1.6;
     }
 
-    /* 顶部彩虹条 */
-    .top-stripe {
-      height: 4px;
-      background: linear-gradient(90deg, var(--orange), var(--yellow), var(--green), var(--blue), var(--purple));
-    }
-
     /* 底部彩虹条 */
     .bottom-stripe {
       height: 3px;
@@ -52,55 +48,138 @@
       padding: 0 20px;
     }
 
-    /* ===== 头部首屏 ===== */
-    .hero {
-      background: var(--cream);
-      text-align: center;
-      padding: 50px 20px 40px;
+    /* ===== 导航栏 ===== */
+    .navbar {
+      background: var(--hero-bg);
+      padding: 0 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
     }
 
-    .avatar {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      object-fit: contain;
-      border: 3px solid var(--white);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      margin-bottom: 16px;
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 50px;
+    }
+
+    .nav-logo {
+      font-size: 20px;
+      font-weight: bold;
+      color: var(--hero-accent);
+      text-decoration: none;
+      letter-spacing: 1px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-links a {
+      color: #aaa;
+      text-decoration: none;
+      font-size: 13px;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--hero-accent);
+    }
+
+    /* ===== 头部首屏 ===== */
+    .hero {
+      background: var(--hero-bg);
+      padding: 40px 20px 50px;
+      overflow: hidden;
+    }
+
+    .hero-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    /* 左侧文字 */
+    .hero-left {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .hero-greeting {
+      font-size: 16px;
+      color: #aaa;
+      margin-bottom: 4px;
+      letter-spacing: 1px;
     }
 
     .hero-name {
-      font-size: 36px;
+      font-size: 48px;
       font-weight: bold;
-      color: var(--dark);
-      letter-spacing: 2px;
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+
+    .hero-bang {
+      color: var(--hero-accent);
     }
 
     .hero-realname {
-      font-size: 16px;
-      color: var(--gray);
-      margin-bottom: 12px;
+      font-size: 18px;
+      color: #ccc;
+      margin-bottom: 10px;
     }
 
     .hero-tagline {
       font-size: 14px;
-      color: var(--gray);
-      margin-bottom: 18px;
+      color: #888;
+      margin-bottom: 20px;
     }
 
     .hero-contact {
       display: flex;
-      gap: 14px;
-      justify-content: center;
+      gap: 12px;
       flex-wrap: wrap;
-      font-size: 12px;
     }
 
     .hero-contact span {
-      background: rgba(225, 112, 85, 0.1);
-      color: var(--orange);
-      padding: 4px 12px;
-      border-radius: 16px;
+      background: rgba(255, 107, 53, 0.15);
+      color: var(--hero-accent);
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      border: 1px solid rgba(255, 107, 53, 0.25);
+    }
+
+    /* 右侧照片 */
+    .hero-right {
+      flex-shrink: 0;
+    }
+
+    .hero-photo-frame {
+      width: 180px;
+      height: 180px;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 3px solid var(--hero-accent);
+      box-shadow: 0 0 30px rgba(255, 107, 53, 0.2);
+      transform: rotate(2deg);
+    }
+
+    .hero-photo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      background: #fff;
     }
 
     /* ===== 技能标签 ===== */
@@ -314,23 +393,61 @@
        响应式适配
        ============================ */
 
-    /* 平板端：内容居中，稍宽 */
+    /* 手机端：首屏竖向堆叠 */
+    .hero-inner {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .hero-right {
+      order: -1;  /* 照片在上 */
+    }
+
+    .hero-photo-frame {
+      width: 140px;
+      height: 140px;
+      margin: 0 auto;
+    }
+
+    .hero-name {
+      font-size: 38px;
+    }
+
+    .hero-contact {
+      justify-content: center;
+    }
+
+    .nav-links a {
+      font-size: 12px;
+    }
+
+    /* 平板端：左右分栏 */
     @media (min-width: 768px) {
       .container {
         padding: 0 40px;
       }
 
-      .hero {
-        padding: 70px 20px 50px;
+      .hero-inner {
+        flex-direction: row;
+        text-align: left;
       }
 
-      .avatar {
-        width: 120px;
-        height: 120px;
+      .hero-right {
+        order: 0;
+      }
+
+      .hero-photo-frame {
+        width: 200px;
+        height: 200px;
+        margin: 0;
       }
 
       .hero-name {
-        font-size: 44px;
+        font-size: 56px;
+      }
+
+      .hero-contact {
+        justify-content: flex-start;
       }
 
       /* 经历：图片更高 */
@@ -360,11 +477,20 @@
       }
 
       .hero {
-        padding: 80px 20px 60px;
+        padding: 60px 20px 80px;
+      }
+
+      .hero-photo-frame {
+        width: 240px;
+        height: 240px;
       }
 
       .hero-name {
-        font-size: 52px;
+        font-size: 72px;
+      }
+
+      .hero-greeting {
+        font-size: 20px;
       }
 
       .skill-tags {
@@ -403,29 +529,45 @@
 </head>
 <body>
 
-  <!-- 顶部彩虹条 -->
-  <div class="top-stripe"></div>
+  <!-- ===== 导航栏 ===== -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">Sheng.</a>
+      <div class="nav-links">
+        <a href="#skills">技能</a>
+        <a href="#experience">经历</a>
+        <a href="#works">作品</a>
+        <a href="#about">关于</a>
+        <a href="#contact">联系</a>
+      </div>
+    </div>
+  </nav>
 
   <!-- ===== 头部首屏 ===== -->
   <header class="hero">
-    <div class="container">
-      <!-- 证件照：圆形裁切 -->
-      <img class="avatar" src="蓝底.jpg" alt="盛欣格证件照">
-      <!-- 展示名 -->
-      <h1 class="hero-name">Sheng</h1>
-      <p class="hero-realname">盛欣格</p>
-      <!-- 身份标签 -->
-      <p class="hero-tagline">全媒体专业 · AI创作者 · 北京交通大学</p>
-      <!-- 联系方式 -->
-      <div class="hero-contact">
-        <span>📧 2643105249@qq.com</span>
-        <span>📱 18299125958</span>
+    <div class="hero-inner">
+      <!-- 左侧：文字区 -->
+      <div class="hero-left">
+        <p class="hero-greeting">Hello, I'm</p>
+        <h1 class="hero-name">Sheng<span class="hero-bang"> !</span></h1>
+        <p class="hero-realname">盛欣格</p>
+        <p class="hero-tagline">全媒体专业 · AI创作者 · 北京交通大学</p>
+        <div class="hero-contact">
+          <span>📧 2643105249@qq.com</span>
+          <span>📱 18299125958</span>
+        </div>
+      </div>
+      <!-- 右侧：证件照 -->
+      <div class="hero-right">
+        <div class="hero-photo-frame">
+          <img src="蓝底.jpg" alt="盛欣格证件照">
+        </div>
       </div>
     </div>
   </header>
 
   <!-- ===== 技能标签 ===== -->
-  <section class="skills">
+  <section class="skills" id="skills">
     <div class="container">
       <h2 class="section-title" style="color: var(--orange);">◆ 技能工具</h2>
       <div class="skill-tags">
@@ -442,7 +584,7 @@
   </section>
 
   <!-- ===== 社会经历 ===== -->
-  <section class="experience">
+  <section class="experience" id="experience">
     <div class="container">
       <h2 class="section-title" style="color: var(--green);">◆ 社会经历</h2>
 
@@ -493,7 +635,7 @@
   </section>
 
   <!-- ===== 课堂作业 ===== -->
-  <section class="works">
+  <section class="works" id="works">
     <div class="container">
       <h2 class="section-title" style="color: var(--yellow);">◆ 课堂作业</h2>
 
@@ -518,7 +660,7 @@
   </section>
 
   <!-- ===== 关于我 ===== -->
-  <section class="about">
+  <section class="about" id="about">
     <div class="container">
       <h2 class="section-title" style="color: var(--blue);">◆ 关于我</h2>
       <ul class="about-list">
@@ -531,7 +673,7 @@
   </section>
 
   <!-- ===== 底部联系 ===== -->
-  <footer class="footer">
+  <footer class="footer" id="contact">
     <div class="container">
       <p class="footer-title">联系我</p>
       <p class="footer-info">📧 2643105249@qq.com &nbsp;·&nbsp; 📱 18299125958</p>
