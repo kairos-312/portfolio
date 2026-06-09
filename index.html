@@ -94,8 +94,9 @@
     /* ===== 头部首屏 ===== */
     .hero {
       background: var(--hero-bg);
-      padding: 40px 20px 50px;
+      padding: 40px 20px 80px;
       overflow: hidden;
+      border-radius: 0 0 50% 50% / 0 0 60px 60px;
     }
 
     .hero-inner {
@@ -175,12 +176,6 @@
       object-fit: contain;
       display: block;
       background: #fff;
-    }
-
-    /* 首屏渐变过渡 */
-    .hero-fade {
-      height: 40px;
-      background: linear-gradient(to bottom, #2C1A0E, #f5f0e8);
     }
 
     /* ===== 技能标签 ===== */
@@ -568,9 +563,6 @@
       </div>
     </div>
   </header>
-
-  <!-- 首屏到内容区的渐变过渡 -->
-  <div class="hero-fade"></div>
 
   <!-- ===== 技能标签 ===== -->
   <section class="skills" id="skills">
